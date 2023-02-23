@@ -1,13 +1,19 @@
 const express = require('express')
-const morgan = require('morgan')
+// const morgan = require('morgan')
 const app = express()
 const cors = require('cors')
 
-morgan.token('data', (request, response) => {
-  return JSON.stringify(request.body)
-})
-const requestLogger = morgan(':method :url :status :res[content-length] - :response-time ms :data') 
-
+// morgan.token('data', (request, response) => {
+//   return JSON.stringify(request.body)
+// })
+// const requestLogger = morgan(':method :url :status :res[content-length] - :response-time ms :data') 
+const requestLogger = (request, response, next) => {
+  console.log('Method:', request.method)
+  console.log('Path:  ', request.path)
+  console.log('Body:  ', request.body)
+  console.log('---')
+  next()
+}
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
